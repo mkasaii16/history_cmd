@@ -6,6 +6,8 @@
 shows useful usage statistics, and searches previous commands. History stays on
 your computer, and `himd` never executes commands from it.
 
+Licensed under the MIT License.
+
 ## Features
 
 - Total, unique, Git, Cargo, and Node command statistics

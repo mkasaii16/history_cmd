@@ -2,6 +2,10 @@
 name = "himd"
 version = "0.0.1"
 edition = "2024"
+description = "Analyze and search your shell command history"
+license = "MIT"
+repository = "https://github.com/mkasaii16/history_cmd"
+homepage = "https://github.com/mkasaii16/history_cmd"
 
 [dependencies]
 clap = { version = "4", features = ["derive"] }
