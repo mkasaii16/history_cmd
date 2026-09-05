@@ -1,0 +1,75 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-macos:
+    name: Build ${{ matrix.target }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            target: aarch64-apple-darwin
+          - runner: macos-15-intel
+            target: x86_64-apple-darwin
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+
+      - name: Verify tag matches Cargo version
+        shell: bash
+        run: |
+          version="$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')"
+          test "${GITHUB_REF_NAME}" = "v${version}"
+
+      - name: Install Rust target
+        run: rustup target add "${{ matrix.target }}"
+
+      - name: Test
+        run: cargo test --locked
+
+      - name: Build release binary
+        run: cargo build --release --locked --target "${{ matrix.target }}"
+
+      - name: Package binary
+        shell: bash
+        run: |
+          mkdir -p package
+          cp "target/${{ matrix.target }}/release/himd" package/himd
+          tar -C package -czf "himd-${{ matrix.target }}.tar.gz" himd
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: himd-${{ matrix.target }}
+          path: himd-${{ matrix.target }}.tar.gz
+          archive: false
+
+  publish:
+    name: Publish GitHub release
+    needs: build-macos
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download binaries
+        uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Generate checksums
+        run: sha256sum dist/*.tar.gz > dist/checksums.txt
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" dist/* --verify-tag --generate-notes

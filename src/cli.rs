@@ -52,7 +52,8 @@ pub enum Command {
             himd search git\n  \
             himd search \"git commit\"\n  \
             himd search git commit --limit 5\n  \
-            himd search docker -l 50\n\n\
+            himd search docker -l 50\n  \
+            himd search \"cargo run\" --limit 10 --copy\n\n\
             Both `git commit` and \"git commit\" become the same search query."
     )]
     Search {
@@ -63,6 +64,10 @@ pub enum Command {
         /// Maximum number of newest matches to print
         #[arg(short, long, default_value_t = 20)]
         limit: usize,
+
+        /// Copy the displayed matches to the system clipboard
+        #[arg(long)]
+        copy: bool,
     },
 
     /// Show the installed himd version
