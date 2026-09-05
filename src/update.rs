@@ -7,7 +7,7 @@ use std::{
 use update_informer::{Check, registry};
 
 const GITHUB_REPOSITORY: &str = "mkasaii16/history_cmd";
-const UPDATE_COMMAND: &str = "brew upgrade himd";
+const UPDATE_COMMAND: &str = "brew update && brew upgrade himd";
 
 pub type UpdateCheck = Receiver<Option<String>>;
 
@@ -59,7 +59,7 @@ mod tests {
 
         assert!(notice.contains(env!("CARGO_PKG_VERSION")));
         assert!(notice.contains("9.9.9"));
-        assert!(notice.contains("brew upgrade himd"));
+        assert!(notice.contains("brew update && brew upgrade himd"));
         assert!(notice.contains('🚀'));
     }
 }

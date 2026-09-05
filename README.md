@@ -83,11 +83,11 @@ brew uninstall himd
 1. Update `version` in `Cargo.toml`.
 2. Run `cargo test --locked`.
 3. Commit and push the changes.
-4. Create and push a matching tag, such as `v0.0.3`.
+4. Create and push a matching tag, such as `v0.0.4`.
 
 ```console
-git tag v0.0.3
-git push origin v0.0.3
+git tag v0.0.4
+git push origin v0.0.4
 ```
 
 The release workflow verifies that the tag matches `Cargo.toml`, builds Apple
@@ -97,5 +97,5 @@ version exists, `himd` prints:
 
 ```text
 🚀 A new himd version is available: 0.0.1 → 0.0.2
-✨ Update it with: brew upgrade himd
+✨ Update it with: brew update && brew upgrade himd
 ```
