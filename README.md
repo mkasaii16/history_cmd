@@ -60,27 +60,34 @@ Make sure `$HOME/.local/bin` is included in your `PATH`.
 
 ## Homebrew
 
-The planned Homebrew tap will support:
+Install from the official `himd` tap:
 
 ```console
+brew tap mkasaii16/tap
+brew trust --formula mkasaii16/tap/himd
 brew install mkasaii16/tap/himd
+```
+
+Homebrew requires explicit trust for third-party formulae. The command above
+trusts only `himd`, not every current or future formula in the tap.
+
+Update or uninstall later with:
+
+```console
 brew upgrade himd
 brew uninstall himd
 ```
-
-Until the tap is published, use the source or release-binary installation
-instructions above.
 
 ## Releasing a new version
 
 1. Update `version` in `Cargo.toml`.
 2. Run `cargo test --locked`.
 3. Commit and push the changes.
-4. Create and push a matching tag, such as `v0.0.2`.
+4. Create and push a matching tag, such as `v0.0.3`.
 
 ```console
-git tag v0.0.2
-git push origin v0.0.2
+git tag v0.0.3
+git push origin v0.0.3
 ```
 
 The release workflow verifies that the tag matches `Cargo.toml`, builds Apple
