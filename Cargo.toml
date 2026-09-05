@@ -1,6 +1,6 @@
 [package]
 name = "himd"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2024"
 description = "Analyze and search your shell command history"
 license = "MIT"
