@@ -1,4 +1,6 @@
-fn history_path() -> Result<PathBuf, Box<dyn Error>> {
+use std::{env, error::Error, io, path::PathBuf};
+
+pub fn history_path() -> Result<PathBuf, Box<dyn Error>> {
     if let Some(path) = env::var_os("HISTFILE") {
         return Ok(PathBuf::from(path));
     }
